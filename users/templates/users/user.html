@@ -1,0 +1,29 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Welcome Page</title>
+    <link rel="stylesheet" href="{% static 'chipin/styles.css' %}">
+</head>
+<body>
+    <div class="header">
+        <div class="user-info">
+            <span>{{ request.user.username }}</span>
+            <form action="{% url 'users:logout' %}" method="post">
+                {% csrf_token %}
+                <button type="submit">Log out</button>
+            </form>
+        </div>
+    </div>   
+    {% if messages %}
+        <ul class="messages">
+        {% for message in messages %}
+            <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+        {% endfor %}
+        </ul>
+    {% endif %}
+    <h1>Welcome, {{ request.user.first_name }}</h1>
+    <p>Username: {{ request.user.username }}</p>
+    <a href="{% url 'chipin:home' %}">ChipIn Homepage</a>
+</body>
+</html>
