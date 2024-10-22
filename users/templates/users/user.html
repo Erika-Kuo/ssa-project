@@ -27,3 +27,17 @@
     <a href="{% url 'chipin:home' %}">ChipIn Homepage</a>
 </body>
 </html>
+
+
+
+
+
+{% extends 'chipin/base.html' %}
+{% load static %}
+{% block title %}User Management{% endblock %}
+
+{% block content %} 
+    <h2>Welcome {{ request.user.first_name }}</h2>
+    <p>This page is for user management functions.</p>
+    <a href="{% url 'chipin:home' %}">Click through to ChipIn Functions</a>
+{% endblock %}

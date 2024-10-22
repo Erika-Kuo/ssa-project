@@ -1,0 +1,12 @@
+{% extends 'chipin/base.html' %}
+{% load static %}
+{% block title %}Register - ChipIn{% endblock %}
+{% block content %}
+    <h1>Register for ChipIn</h1>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Register</button>
+    </form>
+    <p>Already have an account? <a href="{% url 'users:login' %}">Login</a></p>
+{% endblock %}

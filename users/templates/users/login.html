@@ -23,3 +23,21 @@
     </div>
 </body>
 </html>
+
+
+
+
+{% extends 'chipin/base.html' %}
+{% load static %}
+{% block title %}Login - ChipIn{% endblock %}
+
+{% block content %}
+    <div class="login-container">
+        <form action="{% url 'users:login' %}" method="post">
+            {% csrf_token %}
+            <input type="text" name="username" placeholder="Username" required>
+            <input type="password" name="password" placeholder="Password" required>
+            <input type="submit" value="Login">
+        </form>
+    </div>
+{% endblock %}
