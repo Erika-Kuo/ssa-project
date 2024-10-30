@@ -1,0 +1,13 @@
+{% extends 'chipin/base.html' %}
+{% load static %}
+{% block title %}{{ group.name }}{% endblock %}
+{% block content %}
+    <h1>{{ group.name }}</h1> 
+    <p>Administrator: {{ group.admin.username }}</p>
+    <p>Members:</p>
+    <ul>
+        {% for member in group.members.all %}
+        <li>{{ member.username }}</li>
+        {% endfor %}
+    </ul>
+{% endblock %}
