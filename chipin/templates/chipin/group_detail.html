@@ -1,14 +1,33 @@
 {% extends 'chipin/base.html' %}
-{% load static %}
 {% block title %}{{ group.name }}{% endblock %}
 {% block content %}
-    <h1>{{ group.name }}</h1> 
+    <h1>{{ group.name }}</h1>
     <p>Administrator: {{ group.admin.profile.nickname }}</p>
-    <p>Members:</p>
+
+    <!-- Only display "Invite Users" link to the group administrator -->
+    {% if request.user == group.admin %}
+        <a href="{% url 'chipin:invite_users' group.id %}">Invite Users</a>
+    {% endif %}
+
+    <h2>Members</h2>
     <ul>
         {% for member in group.members.all %}
         <li>{{ member.profile.nickname }}</li>
         {% endfor %}
     </ul>
-    <a href="{% url 'chipin:invite_users' group.id %}">Invite Users</a>
+
+    <!-- Only show "Request to Join" button for non-members -->
+    {% if request.user not in group.members.all %}
+        <a href="{% url 'chipin:request_to_join_group' group.id %}">Request to Join</a>
+    {% endif %}
+
+    <!-- Only list Join Requests for groups of which the current user is a member. -->
+    {% if request.user in group.members.all %}
+        <h2>Join Requests</h2>
+        <ul>
+            {% for request in group.join_requests.all %}
+                <li>{{ request.user.profile.nickname }} has requested to join.</li>
+            {% endfor %}
+        </ul>
+    {% endif %}
 {% endblock %}
