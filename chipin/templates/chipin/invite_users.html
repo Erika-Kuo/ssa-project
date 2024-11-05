@@ -1,0 +1,17 @@
+{% extends 'chipin/base.html' %}
+{% load static %}
+{% block title %}Invite Users to {{ group.name }}{% endblock %}
+{% block content %}
+    <h1>Invite Users to {{ group.name }}</h1>
+    <form method="post">
+        {% csrf_token %}
+        <label for="user_id">Select User to Invite:</label>
+        <select name="user_id" id="user_id" required>
+            <option value="">Select a user</option>
+            {% for user in users_not_in_group %}
+                <option value="{{ user.id }}">{{ user.username }} ({{ user.email }})</option>
+            {% endfor %}
+        </select>
+        <button type="submit">Send Invitation</button>
+    </form>
+{% endblock %}
