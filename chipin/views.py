@@ -50,10 +50,10 @@ def invite_users(request, group_id):
         user_id = request.POST.get('user_id')
         invited_user = get_object_or_404(User, id=user_id)      
         if invited_user in group.invited_users.all():
-            messages.info(request, f'{invited_user.username} has already been invited.')
+             messages.info(request, f'{invited_user.profile.nickname} has already been invited.')
         else:
             group.invited_users.add(invited_user)
-            messages.success(request, f'Invitation sent to {invited_user.username}.')
+            messages.success(request, f'Invitation sent to {invited_user.profile.nickname}.')
         return redirect('chipin:group_detail', group_id=group.id)  
     return render(request, 'chipin/invite_users.html', {
         'group': group,

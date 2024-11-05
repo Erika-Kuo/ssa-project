@@ -12,7 +12,7 @@
         </div>
         <div class="user-info">
             {% if request.user.is_authenticated %}
-                <span>{{ request.user.username }}</span>
+                <a href="{% url 'chipin:home' %}">Home</a> <span>{{ request.user.profile.nickname }}</span>
                 <form action="{% url 'users:logout' %}" method="post">
                     {% csrf_token %}
                     <button type="submit">Logout</button>
