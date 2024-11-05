@@ -127,3 +127,27 @@ def accept_invite(request, group_id):
     else:
         messages.error(request, "Invalid invitation link.")  
     return redirect('chipin:group_detail', group_id=group.id)
+
+@login_required
+def vote_on_join_request(request, group_id, request_id, vote):
+    group = get_object_or_404(Group, id=group_id)
+    join_request = get_object_or_404(GroupJoinRequest, id=request_id) 
+    if request.user not in group.members.all():
+        messages.error(request, "You must be a member of the group to vote.")
+        return redirect('chipin:group_detail', group_id=group.id)  
+    if request.user in join_request.votes.all():
+        messages.info(request, "You have already voted.")
+        return redirect('chipin:group_detail', group_id=group.id)
+        
+    # Register the user's vote
+    join_request.votes.add(request.user)
+    
+    # Calculate if more than 60% of members have approved
+    total_members = group.members.count()
+    total_votes = join_request.votes.count() 
+    if total_votes / total_members >= 0.6:
+        join_request.is_approved = True
+        group.members.add(join_request.user)  # Add the user to the group
+        join_request.save()
+        messages.success(request, f"{join_request.user.profile.nickname} has been approved to join the group!") 
+    return redirect('chipin:group_detail', group_id=group.id)
