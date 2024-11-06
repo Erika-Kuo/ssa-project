@@ -144,7 +144,10 @@ def vote_on_join_request(request, group_id, request_id, vote):
     
     # Calculate if more than 60% of members have approved
     total_members = group.members.count()
+    print(f"Total Members:", total_members)
     total_votes = join_request.votes.count() 
+    print(f"Total Votes:", total_votes)
+    print(f"%:", total_votes / total_members)
     if total_votes / total_members >= 0.6:
         join_request.is_approved = True
         group.members.add(join_request.user)  # Add the user to the group
