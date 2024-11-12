@@ -16,3 +16,13 @@ class GroupJoinRequest(models.Model):
     
     def __str__(self):
         return self.name
+    
+class Comment(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)  # User who posted the comment
+    group = models.ForeignKey(Group, related_name='comments', on_delete=models.CASCADE)  # Group associated with the comment
+    content = models.TextField()  # The comment content
+    created_at = models.DateTimeField(auto_now_add=True)  # Timestamp when the comment was posted
+    updated_at = models.DateTimeField(auto_now=True)  # Timestamp for the latest update
+
+    def __str__(self):
+        return f"{self.user.username}: {self.content[:20]}..."  # Show only first 20 chars for preview
