@@ -28,6 +28,8 @@ class Profile(models.Model):
     first_name = models.CharField(max_length=30)
     surname = models.CharField(max_length=30)
     nickname = models.CharField(max_length=30, unique=True, null=False, blank=False)
+    max_spend = models.DecimalField(max_digits=10, decimal_places=2, default = 100.00)
+    balance = models.DecimalField(max_digits=10, decimal_places=2, default=100.00)
 
     def clean(self):
         validate_unique_nickname(self.nickname, instance=self)

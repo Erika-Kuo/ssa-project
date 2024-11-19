@@ -26,3 +26,6 @@ class UserRegistrationForm(UserCreationForm):
             profile.nickname = self.cleaned_data['nickname']
             profile.save()
         return user
+    
+class TopUpForm(UserBalanceForm):
+    balance = 
