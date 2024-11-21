@@ -27,5 +27,5 @@ class UserRegistrationForm(UserCreationForm):
             profile.save()
         return user
     
-class TopUpForm(UserBalanceForm):
-    balance = 
+#class TopUpForm(UserBalanceForm):
+#    balance = 

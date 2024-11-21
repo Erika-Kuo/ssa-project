@@ -59,18 +59,17 @@ def logout_view(request):
     messages.success(request, "Successfully logged out.")
     return redirect('users:login')
 
-@login_required
-def top_up_view(request, user_id):
-    if request.method == 'POST':
-        form = TopUpForm(request.POST, user=request.user)
-        if form.is_valid():
-            amount = form.cleaned_data['amount']
-            balance = request.user.profile.balance
-            messages.success(request, f'Group "{group.name}" has been yes')
-            return redirect('chipin:group_detail', group_id=group.id)
-    else:
-        form = TopUpForm(user=request.user)
-    return render(request, 'chipin/create_group.html', {'form': form})
+#@login_required
+#def top_up_view(request, user_id):
+ #   if request.method == 'POST':
+  #      form = TopUpForm(request.POST, user=request.user)
+   #        amount = form.cleaned_data['amount']
+    #        balance = request.user.profile.balance
+     #       messages.success(request, f'Group "{group.name}" has been yes')
+      #      return redirect('chipin:group_detail', group_id=group.id)
+   # else:
+    #    form = TopUpForm(user=request.user)
+    #return render(request, 'chipin/create_group.html', {'form': form})
 
 
 

@@ -34,6 +34,39 @@
     {% endfor %}
 </ul>
     {% endif %}
+
+    <h2>Group Events</h2>
+    <!-- Only display "Create New Event" link to the group administrator -->
+    {% if request.user == group.admin %}
+        <a href="{% url 'chipin:create_event' group.id %}" class="btn btn-primary">Create New Event</a>
+    {% endif %}
+    <ul>
+        {% for event, info in event_share_info.items %}
+            <li>
+                <strong>{{ event.name }}</strong> - Date: {{ event.date }},
+                <strong>Total Spend:</strong> ${{ event.total_spend }},
+                <strong>Current Share:</strong> ${{ info.share }},
+                <strong>Status:</strong> <span class="event-status">{{ info.status }}</span><br>
+                <!-- If the user has already joined the event, display the "Leave Event" link -->
+                {% if info.joined %}
+                    <span class="joined">You have already joined this event.</span>
+                    <a href="{% url 'chipin:leave_event' group.id event.id %}" class="btn btn-warning" onclick="return confirm('Are you sure you want to leave this event?');">Leave Event</a>
+                {% else %}
+                    <!-- If the user is eligible, show the "Join Event" link -->
+                    {% if info.eligible %}
+                        <span class="eligible">You are eligible to join this event.</span>
+                        <a href="{% url 'chipin:join_event' group.id event.id %}" class="btn btn-success">Join Event</a>
+                    {% else %}
+                        <span class="waiting-room">You are in the waiting room for this event. Increase your balance or wait for more members to join.</span>
+                    {% endif %}
+                {% endif %}
+                <!-- Only display the "Delete Event" link if the user is the group admin -->
+                {% if request.user == group.admin %}
+                    <a href="{% url 'chipin:delete_event' group.id event.id %}" class="btn btn-danger" onclick="return confirm('Are you sure you want to delete this event?');">Delete Event</a>
+                {% endif %}
+            </li>
+        {% endfor %}
+    </ul>
     
 <h2>Group Chat</h2>
 
