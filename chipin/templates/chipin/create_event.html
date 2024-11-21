@@ -1,0 +1,23 @@
+{% extends 'chipin/base.html' %}
+{% block content %}
+<h2>Create Event for {{ group.name }}</h2>
+
+<form method="POST">
+    {% csrf_token %}
+    <div>
+        <label for="name">Event Name</label>
+        <input type="text" name="name" required>
+    </div>
+    <div>
+        <label for="date">Event Date</label>
+        <input type="date" name="date" required>
+    </div>
+    <div>
+        <label for="total_spend">Total Spend</label>
+        <input type="number" name="total_spend" step="1.00" required>
+    </div>
+    <button type="submit">Create Event</button>
+</form>
+
+<a href="{% url 'chipin:group_detail' group.id %}">Back to Group</a>
+{% endblock %}
